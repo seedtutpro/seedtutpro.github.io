@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>seed超级官网</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .nav-item, .btn, .team-member {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+/* 对于移动设备的额外优化 */
+@media (max-width: 768px) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2b5876, #4e4376);
+            color: #fff;
+            margin: 0;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+        
+        /* 主题样式 */
+        body.theme-blue { background: linear-gradient(135deg, #1a2a6c, #2b5876, #4e4376); }
+        body.theme-orange { background: linear-gradient(135deg, #d87040, #e89d6c, #e8b896); }
+        body.theme-green { background: linear-gradient(135deg, #0d7042, #1da15f, #2bb673); }
+        
+        /* 底部导航栏 */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 380px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 23px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px;
+            z-index: 10002;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        
+        /* 导航项 */
+        .nav-item-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 2;
+        }
+        
+        .selection-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translate(-50%, -50%);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item.active i { transform: scale(1.15); }
+        .nav-item span { font-size: 10px; font-weight: 500; }
+        
+        /* 主内容区域 */
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .content {
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto 120px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .glass-card {
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        h1 { font-size: 32px; margin-bottom: 20px; font-weight: 700; }
+        h2 { font-size: 24px; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+        p { line-height: 1.7; margin-bottom: 20px; font-size: 17px; color: rgba(255, 255, 255, 0.9); }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, #74ebd5, #9face6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 800;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 10px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .feature-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #74ebd5;
+            font-size: 24px;
+            line-height: 24px;
+        }
+        
+        /* 联系信息样式 */
+        .contact-list {
+            list-style: none;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 20px;
+        }
+        
+        .contact-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .contact-type {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+        }
+        
+        .contact-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .contact-action {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .btn-copy {
+            background: rgba(116, 235, 213, 0.2);
+        }
+        
+        .btn-copy:hover {
+            background: rgba(116, 235, 213, 0.3);
+        }
+        
+        .btn-link {
+            background: rgba(66, 133, 244, 0.2);
+        }
+        
+        .btn-link:hover {
+            background: rgba(66, 133, 244, 0.3);
+        }
+        
+        /* 点击动画效果 */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+            z-index: 0;
+        }
+        
+        .btn:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+                width: 5px;
+                height: 5px;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(30);
+                opacity: 0;
+                width: 5px;
+                height: 5px;
+            }
+        }
+        
+        /* 团队弹窗 */
+        .team-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .team-modal.active { opacity: 1; visibility: visible; }
+        
+        .team-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        
+        .team-content {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-modal.active .team-content { transform: translateY(0); }
+        
+        .team-content h2 { margin-bottom: 25px; color: #fff; font-size: 24px; }
+        
+        .team-member {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .team-member:active {
+            transform: translateY(5px);
+        }
+        
+        .member-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .member-role {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* 复制成功提示 */
+        .copy-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10003;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .copy-notification.active {
+            opacity: 1;
+        }
+        
+        /* 底部提示文字 */
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* 设置选项样式 */
+        .setting-option { margin-bottom: 25px; }
+        .setting-option h3 { font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .setting-option h3 i { font-size: 20px; width: 24px; }
+        
+        .theme-options, .language-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .theme-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .theme-option.active {
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+        
+        .theme-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            color: #1a2a6c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .theme-blue { background: linear-gradient(135deg, #1a2a6c, #2b5876); }
+        .theme-orange { background: linear-gradient(135deg, #d87040, #e89d6c); }
+        .theme-green { background: linear-gradient(135deg, #0d7042, #1da15f); }
+        
+        .language-option {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .language-option.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* 赞助弹窗 */
+        .sponsor-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sponsor-modal.active { opacity: 1; visibility: visible; }
+        
+        .sponsor-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        
+        .sponsor-content {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .sponsor-modal.active .sponsor-content { transform: translateY(0); }
+        
+        .sponsor-content h2 { margin-bottom: 20px; color: #fff; font-size: 24px; }
+        
+        .sponsor-code {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+        
+        .sponsor-code img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .sponsor-note {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 15px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 968px) {
+            .content { padding: 30px 20px; }
+            .bottom-navbar { width: 340px; }
+            .nav-item-container { width: 45px; height: 45px; }
+            .selection-indicator { width: 45px; height: 45px; }
+            h1 { font-size: 28px; }
+            .glass-card { padding: 20px; }
+            .main-title { font-size: 2.2rem; margin-bottom: 30px; }
+            .contact-item { flex-direction: column; align-items: flex-start; }
+            .contact-action { width: 100%; justify-content: flex-end; margin-top: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            .bottom-navbar { width: 300px; bottom: 20px; }
+            .nav-item-container { width: 40px; height: 40px; }
+            .selection-indicator { width: 40px; height: 40px; border-radius: 16px; }
+            .nav-item i { font-size: 18px; }
+            .nav-item span { font-size: 9px; }
+            .content { padding: 20px 15px; margin-bottom: 100px; }
+            .sponsor-content, .team-content { padding: 20px; width: 90%; }
+            .theme-options { flex-wrap: wrap; }
+            .contact-action { flex-wrap: wrap; }
+            .btn { flex: 1; justify-content: center; }
+        }
+        
+        @media (max-width: 480px) {
+            .bottom-navbar { width: 90%; max-width: 300px; }
+            .nav-item span { display: none; }
+            .nav-item i { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body class="theme-blue">
+    <!-- 赞助弹窗 -->
+    <div class="sponsor-modal" id="sponsorModal">
+        <div class="sponsor-overlay"></div>
+        <div class="sponsor-content">
+            <h2><i class="fas fa-donate"></i> 支持我们</h2>
+            <div class="sponsor-code">
+                <img src="https://i.imgur.com/2jiJWGG.jpg" alt="赞助码">
+            </div>
+            <p class="sponsor-note">感谢您的支持！扫描上方二维码赞助我们</p>
+        </div>
+    </div>
+
+    <!-- 团队弹窗 -->
+    <div class="team-modal" id="teamModal">
+        <div class="team-overlay"></div>
+        <div class="team-content">
+            <h2><i class="fas fa-users"></i> 团队成员</h2>
+            
+            <div class="team-member">
+                <div class="member-name">seedtut</div>
+                <div class="member-role">创始人 & 美工</div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-name">瓜藤下的小承</div>
+                <div class="member-role">动画 & 代码</div>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-name">txt</div>
+                <div class="member-role">桦木工作室美工（我的师傅）</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 复制成功提示 -->
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i> 已成功复制到剪贴板
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-navbar">
+        <div class="selection-indicator"></div>
+        
+        <div class="nav-item-container">
+            <a href="#" class="nav-item active" data-index="0">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+        </div>
+        
+        <div class="nav-item-container">
+            <a href="#" class="nav-item" data-index="1">
+                <i class="fas fa-users"></i>
+                <span>团队</span>
+            </a>
+        </div>
+        
+        <div class="nav-item-container">
+            <a href="#" class="nav-item" data-index="2">
+                <i class="fas fa-heart"></i>
+                <span>赞助</span>
+            </a>
+        </div>
+        
+        <div class="nav-item-container">
+            <a href="https://seedtut2.github.io" class="nav-item" data-index="3" target="_blank">
+                <i class="fas fa-atom"></i>
+                <span>质子</span>
+            </a>
+        </div>
+        
+        <div class="nav-item-container">
+            <a href="https://seedgongju.github.io" class="nav-item" data-index="4" target="_blank">
+                <i class="fas fa-box"></i>
+                <span>百宝箱</span>
+            </a>
+        </div>
+        
+        <div class="nav-item-container">
+            <a href="#" class="nav-item" data-index="5">
+                <i class="fas fa-cog"></i>
+                <span>设置</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 主内容容器 -->
+    <div class="main-container">
+        <div class="content">
+            <!-- 首页内容 -->
+            <div id="home-content">
+                <h1 class="main-title">Seed超级官网</h1>
+                
+                <!-- 合作与反馈模块（第2个位置） -->
+                <div class="glass-card">
+                    <h2><i class="fas fa-handshake"></i> 合作与反馈——联系我们</h2>
+                    <p>如果您有任何问题、建议或合作意向，欢迎通过以下方式联系我们：</p>
+                    
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <div class="contact-info">
+                                <div class="contact-icon">
+                                    <i class="fab fa-qq" style="color: #12b7f5;"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="contact-type">QQ群</span>
+                                    <span class="contact-value">581616660</span>
+                                </div>
+                            </div>
+                            <div class="contact-action">
+                                <button class="btn btn-copy" data-value="581616660">
+                                    <i class="fas fa-copy"></i> 复制
+                                </button>
+                            </div>
+                        </li>
+                        
+                        <li class="contact-item">
+                            <div class="contact-info">
+                                <div class="contact-icon">
+                                    <i class="fab fa-qq" style="color: #12b7f5;"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="contact-type">个人QQ</span>
+                                    <span class="contact-value">3936343697</span>
+                                </div>
+                            </div>
+                            <div class="contact-action">
+                                <button class="btn btn-copy" data-value="3936343697">
+                                    <i class="fas fa-copy"></i> 复制
+                                </button>
+                            </div>
+                        </li>
+                        
+                        <li class="contact-item">
+                            <div class="contact-info">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope" style="color: #ea4335;"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="contact-type">邮箱</span>
+                                    <span class="contact-value">seedtutshsb@keemail.me</span>
+                                </div>
+                            </div>
+                            <div class="contact-action">
+                                <button class="btn btn-copy" data-value="seedtutshsb@keemail.me">
+                                    <i class="fas fa-copy"></i> 复制
+                                </button>
+                            </div>
+                        </li>
+                        
+                        <li class="contact-item">
+                            <div class="contact-info">
+                                <div class="contact-icon">
+                                    <i class="fab fa-telegram" style="color: #2aabee;"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="contact-type">电报群</span>
+                                    <span class="contact-value">加入我们的Telegram社区</span>
+                                </div>
+                            </div>
+                            <div class="contact-action">
+                                <a href="https://t.me/sbjliuqun" class="btn btn-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> 加入
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h1><i class="fas fa-paint-brush"></i> 设计理念</h1>
+                    <p>欢迎来到Seed超级官网。我们采用iOS风格的毛玻璃设计语言，融合了深度模糊、半透明效果和精致光影，创造出如高级磨砂玻璃般的视觉体验。</p>
+                    <p>底部导航栏提供便捷的导航体验，带有流畅的动画效果。</p>
+                </div>
+                
+                <div class="glass-card">
+                    <h2><i class="fas fa-star"></i> 核心特点</h2>
+                    <ul class="feature-list">
+                        <li>深度模糊效果</li>
+                        <li>精致光影过渡</li>
+                        <li>流畅的导航动画</li>
+                        <li>平滑过渡动画</li>
+                        <li>高级磨砂质感</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h2><i class="fas fa-newspaper"></i> 最新动态</h2>
+                    <ul class="feature-list">
+                        <li>iOS风格设计全面升级</li>
+                        <li>新增底部导航系统</li>
+                        <li>毛玻璃设计语言获用户好评</li>
+                        <li>响应式布局适配所有设备</li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h2><i class="fas fa-mobile-alt"></i> 响应式设计</h2>
+                    <p>我们的设计完美适配各种屏幕尺寸，从桌面显示器到移动设备，都能提供一致的用户体验。</p>
+                    <p>在小屏幕设备上，导航栏会自动调整布局，确保在所有设备上都能提供良好的用户体验。</p>
+                </div>
+                
+                <div class="glass-card">
+                    <h2><i class="fas fa-paint-roller"></i> 视觉设计</h2>
+                    <p>我们注重每一个细节，从颜色搭配到动效设计，都经过精心打磨，为用户提供最佳的视觉体验。</p>
+                    <p>毛玻璃效果不仅美观，还能帮助用户更好地聚焦于当前内容，提高使用效率。</p>
+                </div>
+                
+                <!-- 技术实现模块（倒数第1个位置） -->
+                <div class="glass-card">
+                    <h2><i class="fas fa-code"></i> 技术实现</h2>
+                    <p>使用最新的CSS技术实现毛玻璃效果，确保在各种现代浏览器上都能完美呈现。</p>
+                    <p>通过精心优化的代码，确保页面加载速度快，动画流畅，用户体验良好。</p>
+                </div>
+                
+                <!-- 底部提示 -->
+                <div class="footer-note">
+                    如有问题请反馈
+                </div>
+            </div>
+            
+            <!-- 设置内容 -->
+            <div id="settings-content" style="display: none;">
+                <h1 class="main-title">系统设置</h1>
+                
+                <div class="glass-card">
+                    <div class="setting-option">
+                        <h3><i class="fas fa-palette"></i> 主色调设置</h3>
+                        <p>选择您喜欢的界面主色调</p>
+                        <div class="theme-options">
+                            <div class="theme-option theme-blue active" data-theme="blue"></div>
+                            <div class="theme-option theme-orange" data-theme="orange"></div>
+                            <div class="theme-option theme-green" data-theme="green"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-option">
+                        <h3><i class="fas fa-language"></i> 语言设置</h3>
+                        <p>选择界面显示语言</p>
+                        <div class="language-options">
+                            <div class="language-option active" data-lang="zh-CN">简体中文</div>
+                            <div class="language-option" data-lang="en">English</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const navItems = document.querySelectorAll('.nav-item');
+        const indicator = document.querySelector('.selection-indicator');
+        const navContainers = document.querySelectorAll('.nav-item-container');
+        const sponsorModal = document.getElementById('sponsorModal');
+        const teamModal = document.getElementById('teamModal');
+        const homeContent = document.getElementById('home-content');
+        const settingsContent = document.getElementById('settings-content');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const languageOptions = document.querySelectorAll('.language-option');
+        const copyButtons = document.querySelectorAll('.btn-copy');
+        const copyNotification = document.getElementById('copyNotification');
+        const teamMembers = document.querySelectorAll('.team-member');
+        
+        // 设置初始位置
+        let currentIndex = 0;
+        updateIndicatorPosition();
+        
+        // 为导航项添加点击事件
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // 处理外部链接
+                if (this.getAttribute('data-index') === '3' || this.getAttribute('data-index') === '4') {
+                    return; // 允许默认链接行为
+                }
+                
+                e.preventDefault();
+                
+                const index = parseInt(this.getAttribute('data-index'));
+                if (index === currentIndex) return;
+                
+                // 更新当前索引
+                const previousIndex = currentIndex;
+                currentIndex = index;
+                
+                // 移除所有active类
+                navItems.forEach(nav => {
+                    if (nav.getAttribute('data-index') !== '3' && nav.getAttribute('data-index') !== '4') {
+                        nav.classList.remove('active');
+                    }
+                });
+                
+                // 为当前项添加active类
+                this.classList.add('active');
+                
+                // 更新指示器位置
+                updateIndicatorPosition();
+                
+                // 处理页面切换
+                if (index === 1) {
+                    // 显示团队弹窗
+                    teamModal.classList.add('active');
+                    homeContent.style.display = 'block';
+                    settingsContent.style.display = 'none';
+                } else if (index === 2) {
+                    // 显示赞助弹窗
+                    sponsorModal.classList.add('active');
+                    homeContent.style.display = 'block';
+                    settingsContent.style.display = 'none';
+                } else if (index === 5) {
+                    sponsorModal.classList.remove('active');
+                    teamModal.classList.remove('active');
+                    homeContent.style.display = 'none';
+                    settingsContent.style.display = 'block';
+                } else {
+                    sponsorModal.classList.remove('active');
+                    teamModal.classList.remove('active');
+                    homeContent.style.display = 'block';
+                    settingsContent.style.display = 'none';
+                }
+                
+                // 更新标题
+                const pageName = this.querySelector('span').textContent;
+                document.querySelector('.main-title').textContent = `Seed超级官网 - ${pageName}`;
+                
+                // 滚动到顶部
+                document.querySelector('.main-container').scrollTo(0, 0);
+            });
+        });
+        
+        // 团队成员点击效果
+        teamMembers.forEach(member => {
+            member.addEventListener('click', function() {
+                this.style.transform = 'translateY(-8px)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            });
+        });
+        
+        // 主题切换
+        themeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                themeOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                document.body.className = '';
+                document.body.classList.add(`theme-${theme}`);
+            });
+        });
+        
+        // 语言切换
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                languageOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 实际应用中这里应该更新所有文本内容
+                if (lang === 'en') {
+                    document.querySelector('.main-title').textContent = 'Seed Super Website';
+                    document.getElementById('home-content').querySelector('h1').textContent = 'Design Concept';
+                    // 更多文本更新...
+                } else {
+                    document.querySelector('.main-title').textContent = 'Seed超级官网';
+                    document.getElementById('home-content').querySelector('h1').textContent = '设计理念';
+                    // 更多文本更新...
+                }
+            });
+        });
+        
+        // 复制功能
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const textarea = document.createElement('textarea');
+                textarea.value = value;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                // 显示复制成功提示
+                copyNotification.classList.add('active');
+                
+                setTimeout(() => {
+                    copyNotification.classList.remove('active');
+                }, 2000);
+            });
+        });
+        
+        // 更新指示器位置
+        function updateIndicatorPosition() {
+            const activeContainer = navContainers[currentIndex];
+            const containerRect = activeContainer.getBoundingClientRect();
+            const navbarRect = activeContainer.parentElement.getBoundingClientRect();
+            const position = containerRect.left + (containerRect.width / 2) - navbarRect.left;
+            indicator.style.left = `${position}px`;
+        }
+        
+        // 窗口大小变化时更新指示器位置
+        window.addEventListener('resize', updateIndicatorPosition);
+    </script>
+</body>
+</html>
